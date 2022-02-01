@@ -20,6 +20,8 @@ from deep_sort import preprocessing, nn_matching
 from deep_sort.detection import Detection
 from deep_sort.tracker import Tracker
 from tools import generate_detections as gdet
+import socket
+from custom_socket import CustomSocket
 
 # config constants
 SIZE = 416
@@ -175,7 +177,20 @@ def main():
     img = cv2.imread('C:/robocup2022/yolov4-deepsort/test_pics/test1.jpg')
 
     # solution list, and result_img
-    sol, result_img = PT.process(img)
+    # sol, result_img = PT.process(img)
+
+    # print(sol)
+
+    server = CustomSocket(socket.gethostname(),11000)
+    server.startServer()
+
+    while True :
+        conn, addr = server.sock.accept()
+        print("Client connected from",addr)
+        data = server.recvMsg(conn)
+        img = np.frombuffer(data,dtype=np.uint8).reshape(720,1080,3)
+        sol, result_img = PT.process(img)
+        server.sendMsg(conn,str(sol))
 
     # for i in range(1,8,1):
     #     img_path = 'C:/robocup2022/yolov4-deepsort/test_pics/test' + str(i) + '.jpg'
