@@ -1,8 +1,7 @@
 # robocup2022-cv-person-tracker
-python 3.7 <br>
-download other files from https://drive.google.com/file/d/17N64aBPytocPqlA_pp7DCRruDQDeg3Ir/view?usp=sharing (all files)<br>
+Download other files from https://drive.google.com/file/d/17N64aBPytocPqlA_pp7DCRruDQDeg3Ir/view?usp=sharing (all files)<br>
 GPU Ver - https://drive.google.com/file/d/1Dvy2ID5V38tVDj8NXtp-TNnRRqBRiFQW/view?usp=sharing (you can download only this file)<br>
-ref: https://youtu.be/FuvQ8Melz1o <br>
+Ref: https://youtu.be/FuvQ8Melz1o <br>
 
 Conda <br>
 ```
