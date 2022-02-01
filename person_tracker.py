@@ -22,6 +22,7 @@ from deep_sort.tracker import Tracker
 from tools import generate_detections as gdet
 import socket
 from custom_socket import CustomSocket
+import json
 
 # config constants
 SIZE = 416
@@ -172,14 +173,17 @@ def main():
     PT = PersonTracker()
 
     # load image
-    img = cv2.imread('C:/robocup2022/yolov4-deepsort/test_pics/test1.jpg')
+    img = cv2.imread('test_pics/test1.jpg')
+
+    HOST = socket.gethostname()
+    PORT = 11000
 
     # solution list, and result_img
     # sol, result_img = PT.process(img)
 
     # print(sol)
 
-    server = CustomSocket(socket.gethostname(),11000)
+    server = CustomSocket(HOST,PORT)
     server.startServer()
 
     while True :
@@ -188,7 +192,9 @@ def main():
         data = server.recvMsg(conn)
         img = np.frombuffer(data,dtype=np.uint8).reshape(720,1080,3)
         sol, result_img = PT.process(img)
-        server.sendMsg(conn,str(sol))
+        result = {}
+        result["result"] = sol
+        server.sendMsg(conn,json.dumps(result))
 
     # for i in range(1,8,1):
     #     img_path = 'C:/robocup2022/yolov4-deepsort/test_pics/test' + str(i) + '.jpg'

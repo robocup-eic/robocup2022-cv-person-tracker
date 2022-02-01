@@ -1,6 +1,7 @@
 import socket
 import struct
 import numpy as np
+import json
 
 class CustomSocket :
 
@@ -24,6 +25,7 @@ class CustomSocket :
 	def clientConnect(self) :
 		try :
 			self.sock.connect((self.host,self.port))
+			print("[SOCKET CLIENT CONNECTED TO "+str(self.host)+" "+str(self.port)+"]")
 		except Exception as e :
 			print("Error :",e)
 			return False
@@ -35,7 +37,7 @@ class CustomSocket :
 			temp = msg.encode('utf-8')
 		except Exception as e :
 			# This message is an image
-			temp = temp
+			print("[IMAGE SENT THROUGH SOCKET]")
 		msg = struct.pack('>I', len(msg)) + temp
 		sock.sendall(msg)
 
@@ -49,12 +51,19 @@ class CustomSocket :
 		return data
 
 	def recvMsg(self,sock) :
+
 		rawMsgLen = self.recvall(sock, 4)
 		if not rawMsgLen :
 			return None
 		msgLen = struct.unpack('>I', rawMsgLen)[0]
+
 		return self.recvall(sock, msgLen)
 
+	def req(self,image) :
+		self.sendMsg(self.sock,image.tobytes())
+		result = self.recvMsg(self.sock)
+		result = result.decode('utf-8')
+		return json.loads(result)
 
 def main() :
 
@@ -66,8 +75,8 @@ def main() :
 		print("Client connected from",addr)
 		data = server.recvMsg(conn)
 		img = np.frombuffer(data,dtype=np.uint8).reshape(720,1080,3)
-		print(img)
-		server.sendMsg(conn,"Dick")
+		res = {"mean" : 0 , "mode" : 0 , "med" : 0}
+		server.sendMsg(conn,json.dumps(res))
 
 if __name__ == '__main__' :
 	main()	
