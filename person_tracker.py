@@ -141,12 +141,10 @@ class PersonTracker:
 
         # update tracks
         for track in self.tracker.tracks:
-            print(track.to_tlbr(), track.is_confirmed(), track.time_since_update, class_name, track.track_id)
             if not track.is_confirmed() or track.time_since_update > 1: 
                 continue 
             bbox = track.to_tlbr()
             class_name = track.get_class()
-            print(track.to_tlbr(), track.is_confirmed(), track.time_since_update, class_name, track.track_id)
             # draw bbox on screen
             color = colors[int(track.track_id) % len(colors)]
             color = [i * 255 for i in color]
