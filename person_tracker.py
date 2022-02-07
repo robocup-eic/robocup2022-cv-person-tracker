@@ -15,9 +15,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tensorflow.compat.v1 import ConfigProto, Session
 
-config = tf.ConfigProto()
+config = ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = 0.05
-session = tf.Session(config=config)
+session = Session(config=config)
 
 # deep sort imports
 from deep_sort import preprocessing, nn_matching
