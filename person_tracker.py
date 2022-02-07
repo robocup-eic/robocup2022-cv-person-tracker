@@ -13,7 +13,11 @@ from core.config import cfg
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from tensorflow.compat.v1 import ConfigProto
+from tensorflow.compat.v1 import ConfigProto, Session
+
+config = tf.ConfigProto()
+config.gpu_options.per_process_gpu_memory_fraction = 0.05
+session = tf.Session(config=config)
 
 # deep sort imports
 from deep_sort import preprocessing, nn_matching
@@ -49,8 +53,6 @@ class PersonTracker:
         # initialize tracker
         self.tracker = Tracker(self.metric)
         # load configuration for object detector
-        self.config = ConfigProto()
-        self.config.gpu_options.allow_growth = True
         self.nms_max_overlap = nms_max_overlap
         self.saved_model_loaded = tf.saved_model.load(YOLO_WEIGHTS_PATH, tags=[tag_constants.SERVING])
         self.infer = self.saved_model_loaded.signatures['serving_default']
