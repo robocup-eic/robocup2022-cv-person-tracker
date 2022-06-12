@@ -13,3 +13,4 @@ conda env create --name person-tracker python=3.8.3
 ```
 pip install -r requirements.txt
 ```
+5. Copy and paste any files from .zip to root folder
