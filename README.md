@@ -1,24 +1,15 @@
 # robocup2022-cv-person-tracker
-python 3.7 <br>
-download other files from https://drive.google.com/file/d/17N64aBPytocPqlA_pp7DCRruDQDeg3Ir/view?usp=sharing (all files)<br>
-Download other files from https://drive.google.com/file/d/17N64aBPytocPqlA_pp7DCRruDQDeg3Ir/view?usp=sharing (all files)<br>
-GPU Ver - https://drive.google.com/file/d/1Dvy2ID5V38tVDj8NXtp-TNnRRqBRiFQW/view?usp=sharing (you can download only this file)<br>
-ref: https://youtu.be/FuvQ8Melz1o <br>
-Ref: https://youtu.be/FuvQ8Melz1o <br>
+Use python 3.8.3
 
-Conda <br>
+## Installation
+
+1. Clone this project
+2. Create conda environment
+3. Download all files from [LINK TO DRIVE]
 ```
-# Tensorflow CPU
-conda env create -f conda-cpu.yml
-conda activate yolov4-cpu
-# Tensorflow GPU
-conda env create -f conda-gpu.yml
-conda activate yolov4-gpu
+conda env create --name person-tracker python=3.8.3
 ```
-Pip <br>
+4. Install requirements.txt
 ```
-# TensorFlow CPU
 pip install -r requirements.txt
-# TensorFlow GPU
-pip install -r requirements-gpu.txt
 ```
