@@ -5,7 +5,7 @@ Use python 3.8.3
 
 1. Clone this project
 2. Create conda environment
-3. Download all files from [LINK TO DRIVE]
+3. Download all files from [LINK TO DRIVE](https://drive.google.com/file/d/1JkkL7lwtLzRFTxtcgEGMBPg3URfCYlRJ/view?usp=sharing)
 ```
 conda env create --name person-tracker python=3.8.3
 ```
