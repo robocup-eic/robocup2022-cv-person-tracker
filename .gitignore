@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!custom_socket.py
+!person_tracker.py
+!person_tracker_live.py
+!requirements.txt
+# etc...

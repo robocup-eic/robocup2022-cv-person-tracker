@@ -30,7 +30,8 @@ import json
 
 # config constants
 SIZE = 416
-YOLO_WEIGHTS_PATH = './checkpoints/yolov4-416'
+# YOLO_WEIGHTS_PATH = './checkpoints/yolov4-416'
+YOLO_WEIGHTS_PATH = "./checkpoints/yolov4-pretrain"
 IOU = 0.45
 SCORE = 0.50
 ENCODER_PATH = 'model_data/mars-small128.pb'
@@ -175,7 +176,7 @@ def main():
     PT = PersonTracker()
 
     # load image
-    img = cv2.imread('test_pics/test1.jpg')
+    # img = cv2.imread('test_pics/test1.jpg')
 
     HOST = socket.gethostname()
     PORT = 11000
@@ -191,12 +192,13 @@ def main():
     while True :
         conn, addr = server.sock.accept()
         print("Client connected from",addr)
-        data = server.recvMsg(conn)
-        img = np.frombuffer(data,dtype=np.uint8).reshape(720,1080,3)
-        sol, result_img = PT.process(img)
-        result = {}
-        result["result"] = sol
-        server.sendMsg(conn,json.dumps(result))
+        while True:
+            data = server.recvMsg(conn)
+            img = np.frombuffer(data,dtype=np.uint8).reshape(720,1080,3)
+            sol, result_img = PT.process(img)
+            result = {}
+            result["result"] = sol
+            server.sendMsg(conn,json.dumps(result))
 
     # for i in range(1,8,1):
     #     img_path = 'C:/robocup2022/yolov4-deepsort/test_pics/test' + str(i) + '.jpg'
