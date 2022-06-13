@@ -13,6 +13,9 @@ class CustomSocket :
 
 	def startServer(self) :
 		try :
+			# solve address already in use error
+			# https://python-list.python.narkive.com/Y15bAxfI/socket-unbind-or-socket-unlisten-socket-error-48-address-already-in-use
+			self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 			self.sock.bind((self.host,self.port))
 			self.sock.listen(5)
 			self.isServer = True
