@@ -30,7 +30,6 @@ import json
 
 # config constants
 SIZE = 416
-# YOLO_WEIGHTS_PATH = './checkpoints/yolov4-416'
 YOLO_WEIGHTS_PATH = "./checkpoints/yolov4-pretrain"
 IOU = 0.45
 SCORE = 0.50
@@ -38,10 +37,6 @@ ENCODER_PATH = 'model_data/mars-small128.pb'
 
 # custom allowed classes (uncomment line below to customize tracker for only people)
 ALLOWED_CLASSES = ['person']
-
-# # test
-# saved_model_loaded = tf.saved_model.load(YOLO_WEIGHTS_PATH, tags=[tag_constants.SERVING])
-# infer = saved_model_loaded.signatures['serving_default']
 
 class PersonTracker:
     
@@ -193,12 +188,18 @@ def main():
         conn, addr = server.sock.accept()
         print("Client connected from",addr)
         while True:
-            data = server.recvMsg(conn)
-            img = np.frombuffer(data,dtype=np.uint8).reshape(720,1080,3)
-            sol, result_img = PT.process(img)
-            result = {}
-            result["result"] = sol
-            server.sendMsg(conn,json.dumps(result))
+            try:
+                data = server.recvMsg(conn)
+                img = np.frombuffer(data,dtype=np.uint8).reshape(720,1080,3)
+                sol, result_img = PT.process(img)
+                result = {}
+                result["result"] = sol
+                server.sendMsg(conn,json.dumps(result))
+            except Exception as e:
+                print(e)
+                print("CONNECTION CLOSED")
+                break
+
 
     # for i in range(1,8,1):
     #     img_path = 'C:/robocup2022/yolov4-deepsort/test_pics/test' + str(i) + '.jpg'
