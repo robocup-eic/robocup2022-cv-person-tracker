@@ -190,7 +190,7 @@ def main():
         while True:
             try:
                 data = server.recvMsg(conn)
-                img = np.frombuffer(data,dtype=np.uint8).reshape(720,1080,3)
+                img = np.frombuffer(data,dtype=np.uint8).reshape(720,1280,3)
                 sol, result_img = PT.process(img)
                 result = {}
                 result["result"] = sol
