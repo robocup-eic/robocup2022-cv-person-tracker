@@ -8,6 +8,7 @@ class CustomSocket :
 	def __init__(self,host,port) :
 		self.host = host
 		self.port = port
+		self.SPLITTER = b"CHAMPANDCAPTAIN"
 		self.sock = socket.socket()
 		self.isServer = False
 
@@ -68,6 +69,18 @@ class CustomSocket :
 		result = result.decode('utf-8')
 		return json.loads(result)
 
+	def register(self, image, name):
+		command = b'register'+self.SPLITTER
+		image = image[:,:,::-1].tobytes()
+		name = self.SPLITTER + bytes(name, 'utf-8')
+		self.sendMsg(self.sock, command + image + name)
+		
+	def detect(self, image):
+		command = b'detect'+self.SPLITTER
+		image = image[:,:,::-1].tobytes()
+		self.sendMsg(self.sock, command + image )
+		
+
 def main() :
 
 	server = CustomSocket(socket.gethostname(),10000)
@@ -76,12 +89,11 @@ def main() :
 	while True :
 		conn, addr = server.sock.accept()
 		print("Client connected from",addr)
-		data = server.recvMsg(conn)
-		img = np.frombuffer(data,dtype=np.uint8).reshape(720,1080,3)
-		res = {"mean" : 0 , "mode" : 0 , "med" : 0}
-		server.sendMsg(conn,json.dumps(res))
+		while True :
+			data = server.recvMsg(conn)
+			# img = np.frombuffer(data,dtype=np.uint8).reshape(720,1080,3)
+			res = {"mean" : 0 , "mode" : 0 , "med" : 0}
+			print(res)
 
 if __name__ == '__main__' :
 	main()	
-
-
