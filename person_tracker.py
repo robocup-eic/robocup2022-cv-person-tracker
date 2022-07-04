@@ -157,7 +157,7 @@ class PersonTracker:
 
         # calculate frames per second of running detections
         fps = 1.0 / (time.time() - start_time)
-        print("FPS: %.2f" % fps)
+        # print("FPS: %.2f" % fps)
 
         result_img = np.asarray(img)
         result_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
@@ -172,8 +172,8 @@ def main():
 
     # load image
     # img = cv2.imread('test_pics/test1.jpg')
-
     HOST = socket.gethostname()
+    #HOST = socket.gethostname()
     PORT = 11000
 
     # solution list, and result_img
@@ -194,6 +194,7 @@ def main():
                 sol, result_img = PT.process(img)
                 result = {}
                 result["result"] = sol
+                print(result)
                 server.sendMsg(conn,json.dumps(result))
             except Exception as e:
                 print(e)
